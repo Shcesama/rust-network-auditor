@@ -7,6 +7,9 @@ description = "Async network auditor and vulnerability scanner"
 
 [dependencies]
 tokio = { version = "1", features = ["full"] }
-clap = { version = "4", features = ["derive"] }
-colored = "2.1"
+clap = { version = "4.0", features = ["derive"] }
+colored = "2.0"
 futures = "0.3"
+serde = { version = "1.0", features = ["derive"] } # BU ŞART
+serde_json = "1.0"                               # BU ŞART
+chrono = "0.4"                                   # BU ŞART
