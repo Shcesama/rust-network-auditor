@@ -1,5 +1,5 @@
 [package]
-name = "rust-network-auditor"
+name = "rust-service-port-auditor"
 version = "0.1.0"
 edition = "2024"
 authors = ["Senin Adın"]
