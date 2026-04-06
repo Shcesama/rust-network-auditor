@@ -13,7 +13,15 @@ pub async fn probe_service(mut stream: TcpStream, port: u16) {
     // Web portları için önceden istek gönder
     let web_ports = [80, 443, 8080, 8443];
     if web_ports.contains(&port) {
-        let _ = stream.write_all(b"HEAD / HTTP/1.0\r\n\r\n").await;
+        if let Err(e) = stream.write_all(b"HEAD / HTTP/1.0\r\n\r\n").await {
+            eprintln!(
+                "{} Port {}: Servis bilgisi gönderilemedi: {}",
+                "[!]".yellow(),
+                port,
+                e
+            );
+            return;
+        }
     }
 
     match timeout(Duration::from_secs(2), stream.read(&mut buffer)).await {
