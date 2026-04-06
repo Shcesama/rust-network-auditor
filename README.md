@@ -1,13 +1,25 @@
-<div align="center">
+<<div align="center">
   <img src="./logo.jpg" alt="İstinye Üniversitesi Logo" width="250"/>
   <br/>
   <h3>İstinye Üniversitesi</h3>
   <b>Danışman / Eğitmen:</b> Keyvan Arasteh Abbasabad
 </div>
 
+<hr/>
+
 # 🛡️ Rust-Service-Port-Auditor
 
+<p align="left">
+  <img src="https://img.shields.io/badge/Language-Rust-orange?style=flat-square&logo=rust" alt="Language: Rust"/>
+  <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-blue?style=flat-square" alt="License: MIT"/></a>
+  <img src="https://img.shields.io/badge/Status-Active-success?style=flat-square" alt="Status: Active"/>
+</p>
+
 Rust ile geliştirilmiş, Tokio tabanlı, yüksek performanslı ve asenkron bir ağ denetim aracıdır. Bu proje, ağ üzerindeki açık portları tespit etmenin ötesine geçerek servis analizi ve zafiyet taraması gerçekleştirir.
+
+## 📋 İçindekiler
+- [Öne Çıkan Özellikler](#-öne-çıkan-özellikler)
+- [Kurulum ve Kullanım](#-kurulum-ve-kullanım)
 
 ## 📋 İçindekiler
 - [Öne Çıkan Özellikler](#-öne-çıkan-özellikler)
