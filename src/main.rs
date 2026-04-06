@@ -75,11 +75,20 @@ async fn main() {
         .await;
 
     // --- RAPORLAMA KISMI BURADA (Döngü bittikten sonra bir kez) ---
-    let final_results = scan_results.lock().unwrap();
+    let final_results = match scan_results.lock() {
+        Ok(guard) => guard.clone(),
+        Err(poisoned) => {
+            eprintln!(
+                "Uyarı: İşlemlerden biri çöktüğü için kilitlenme oluştu. Kurtarılan veriler kullanılıyor."
+            );
+            poisoned.into_inner().clone()
+        }
+    };
+
     let report = FinalReport {
         target: target_ip.to_string(),
         scan_time: Local::now().format("%Y-%m-%d %H:%M:%S").to_string(),
-        results: final_results.clone(),
+        results: final_results,
     };
     // FIXME: Konsol çıktıları çok yoğun olduğunda dosyaya yazma performansı düşüyor, optimize edilecek.
     let json_data = match serde_json::to_string_pretty(&report) {
