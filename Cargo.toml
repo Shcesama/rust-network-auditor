@@ -2,7 +2,7 @@
 name = "rust-service-port-auditor"
 version = "0.1.0"
 edition = "2024"
-authors = ["Batuhan Seydi Çelik]
+authors = ["Batuhan Seydi Çelik"]
 description = "Async network auditor and vulnerability scanner"
 
 [dependencies]
@@ -10,6 +10,6 @@ tokio = { version = "1", features = ["full"] }
 clap = { version = "4.0", features = ["derive"] }
 colored = "2.0"
 futures = "0.3"
-serde = { version = "1.0", features = ["derive"] } # BU ŞART
-serde_json = "1.0"                               # BU ŞART
-chrono = "0.4"                                   # BU ŞART
+serde = { version = "1.0", features = ["derive"] } 
+serde_json = "1.0"                               
+chrono = "0.4"    
