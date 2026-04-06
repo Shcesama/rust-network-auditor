@@ -1,13 +1,17 @@
 {
-  "target": "45.33.32.156",
-  "scan_time": "2026-04-05 18:56:20",
+  "target": "127.0.0.1",
+  "scan_time": "2026-04-06 22:16:51",
   "results": [
+    {
+      "port": 21,
+      "status": "Açık"
+    },
     {
       "port": 80,
       "status": "Açık"
     },
     {
-      "port": 22,
+      "port": 443,
       "status": "Açık"
     }
   ]

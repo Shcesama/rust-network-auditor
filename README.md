@@ -19,8 +19,20 @@ Rust ile geliştirilmiş, Tokio tabanlı, yüksek performanslı ve asenkron bir 
 
 
 ## 📋 İçindekiler
+- [🎬 Demo](#-demo)
 - [Öne Çıkan Özellikler](#-öne-çıkan-özellikler)
 - [Kurulum ve Kullanım](#-kurulum-ve-kullanım)
+
+---
+
+## 🎬 Demo
+
+Aşağıdaki kayıtta aracın asenkron çalışma prensibi ve örnek bir zafiyet tarama çıktısı görülmektedir.
+
+![Demo Scan Record](demo/project-demo.webp)
+
+> [!TIP]
+> Bu demoda yerel ağdaki (127.0.0.1) bir FTP sunucusu taranmış ve "Anonymous Login" zafiyeti tespit edilmiştir. Sistem gerçek zamanlı olarak kritiklik seviyesini raporlamaktadır.
 
 ---
 
