@@ -52,21 +52,7 @@ async fn main() {
         }
     };
 
-    let mut port_list = Vec::new();
-    for part in args.ports.split(',') {
-        if part.contains('-') {
-            let range: Vec<&str> = part.split('-').collect();
-            if range.len() == 2 {
-                let start: u16 = range[0].parse().unwrap_or(0);
-                let end: u16 = range[1].parse().unwrap_or(0);
-                for p in start..=end {
-                    port_list.push(p);
-                }
-            }
-        } else if let Ok(p) = part.trim().parse::<u16>() {
-            port_list.push(p);
-        }
-    }
+    let port_list = parse_ports(&args.ports);
 
     // SONUÇLARI TOPLAYACAK GÜVENLİ LİSTE
     let scan_results = Arc::new(Mutex::new(Vec::new()));
@@ -96,15 +82,30 @@ async fn main() {
         results: final_results.clone(),
     };
 
-    let json_data = serde_json::to_string_pretty(&report).unwrap();
-    let mut file = File::create("scan_report.json").expect("Dosya oluşturulamadı");
-    file.write_all(json_data.as_bytes()).expect("Yazma hatası");
+    let json_data = match serde_json::to_string_pretty(&report) {
+        Ok(veri) => veri,
+        Err(hata) => {
+            eprintln!("JSON dönüştürme hatası: {}", hata);
+            return;
+        }
+    };
 
-    println!(
-        "\n{} Denetim bitti. Rapor: {}",
-        "[*]".blue().bold(),
-        "scan_report.json".cyan()
-    );
+    let mut file = match File::create("scan_report.json") {
+        Ok(dosya) => dosya,
+        Err(hata) => {
+            eprintln!("Dosya oluşturma hatası: {}", hata);
+            return;
+        }
+    };
+
+    match file.write_all(json_data.as_bytes()) {
+        Ok(_) => println!(
+            "\n{} Denetim bitti. Rapor: {}",
+            "[*]".blue().bold(),
+            "scan_report.json".cyan()
+        ),
+        Err(hata) => eprintln!("Dosyaya yazma hatası: {}", hata),
+    }
 }
 
 async fn check_port_wrapper(
@@ -142,5 +143,48 @@ async fn check_port_wrapper(
         }
 
         core::scanner::probe_service(stream, port).await;
+    }
+}
+pub fn parse_ports(ports_input: &str) -> Vec<u16> {
+    let mut port_list = Vec::new();
+    for part in ports_input.split(',') {
+        if part.contains('-') {
+            let range: Vec<&str> = part.split('-').collect();
+            if range.len() == 2 {
+                let start: u16 = range[0].parse().unwrap_or(0);
+                let end: u16 = range[1].parse().unwrap_or(0);
+                if start > 0 && end >= start {
+                    for p in start..=end {
+                        port_list.push(p);
+                    }
+                }
+            }
+        } else if let Ok(p) = part.trim().parse::<u16>() {
+            port_list.push(p);
+        }
+    }
+    port_list
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_tekil_degerler() {
+        let sonuc = parse_ports("80,443");
+        assert_eq!(sonuc, vec![80, 443]);
+    }
+
+    #[test]
+    fn test_aralik_degerleri() {
+        let sonuc = parse_ports("20-22");
+        assert_eq!(sonuc, vec![20, 21, 22]);
+    }
+
+    #[test]
+    fn test_karisik_degerler() {
+        let sonuc = parse_ports("80,90-92,443");
+        assert_eq!(sonuc, vec![80, 90, 91, 92, 443]);
     }
 }
